@@ -30,7 +30,7 @@ const FormSchema = z.object({
   }),
 });
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -112,4 +112,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

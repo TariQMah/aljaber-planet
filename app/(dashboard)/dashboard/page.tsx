@@ -13,7 +13,9 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col my-32 mx-auto w-[80%]">
       <div className="text-center gap-5 flex flex-col">
-        <h2 className="text-4xl">Welcome to Aljaber's Planet Tax Refund</h2>
+        <h2 className="text-4xl">
+          Welcome to Aljaber&apos;s Planet Tax Refund
+        </h2>
         <p className="text-2xl">Select a process to continue</p>
       </div>
 
