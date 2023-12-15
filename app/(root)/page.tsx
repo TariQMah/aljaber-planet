@@ -1,115 +1,48 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import Image from "next/image";
 import React from "react";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
-import * as z from "zod";
+import { Card, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-
-const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-
-  password: z.string({
-    required_error: "Password is required",
-  }),
-});
-
-const Page = () => {
+const Dashboard = () => {
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      username: "",
-    },
-  });
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("🚀 ~ file: page.tsx:41 ~ onSubmit ~ data:", data);
-
-    router.push("/dashboard");
-
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
-  }
+  const onRouteClick = (route: String) => {
+    router.push(`/${route}`);
+  };
   return (
-    <div className="flex bg-white justify-center items-center h-full">
-      <div className="m-auto p-5 bg-gray-300 rounded-xl border-2 border-white w-[600px]">
-        <div className="flex flex-col text-center justify-center">
-          <div className="flex  justify-center my-5 ">
-            <Image
-              alt="aljaber logo"
-              width={300}
-              height={100}
-              src={"/images/opticallogo.png"}
-            />
-          </div>
+    <div className="flex flex-col my-32 mx-auto w-[80%]">
+      <div className="text-center gap-5 flex flex-col">
+        <h2 className="text-4xl">
+          Welcome to Aljaber&apos;s Planet Tax Refund
+        </h2>
+        <p className="text-2xl">Select a process to continue</p>
+      </div>
 
-          <div className="flex justify-center">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="w-2/3 space-y-6"
-              >
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem className="text-left">
-                      <FormLabel>Username</FormLabel>
-                      <FormControl>
-                        <Input placeholder="username/email" {...field} />
-                      </FormControl>
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem className="text-left">
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input placeholder="password" {...field} />
-                      </FormControl>
-
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit">Submit</Button>
-              </form>
-            </Form>
-          </div>
-        </div>
+      <div className="flex gap-10 my-10">
+        <Card
+          onClick={() => onRouteClick("planets-tax-refund-programme")}
+          className="w-full group transition rounded-3xl shadow-md  hover:shadow-2xl hover:bg-green-500 hover:cursor-pointer "
+        >
+          <CardContent className="p-48">
+            <h3 className="text-6xl text-center transition  group-hover:text-white">
+              New
+            </h3>
+          </CardContent>
+        </Card>
+        <Card
+          onClick={() => onRouteClick("cancel-refund-request")}
+          className="w-full group transition rounded-3xl shadow-md  hover:shadow-2xl  hover:bg-green-500 "
+        >
+          <CardContent className="p-48">
+            <h3 className="text-6xl text-center transition  group-hover:text-white">
+              Cancel
+            </h3>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
 };
 
-export default Page;
+export default Dashboard;

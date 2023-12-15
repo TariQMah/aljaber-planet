@@ -15,34 +15,33 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { english } from "@/utils/constrant";
+import { calculateSum, english } from "@/utils/constrant";
 
 const DataTable = ({ data }: any) => {
-  const calculateSum = useCallback(
-    (property: any) => {
-      return data.reduce((accumulator: any, invoice: any) => {
-        const propertyValue = invoice[property].toString();
-        return accumulator + parseFloat(propertyValue);
-      }, 0);
-    },
-    [data]
+  const totalSum = useMemo(
+    () => calculateSum("grossAmount", data),
+    [calculateSum, data]
   );
-
-  const totalSum = useMemo(() => calculateSum("Total"), [calculateSum]);
-  const netSum = useMemo(() => calculateSum("netAmount"), [calculateSum]);
-  const unitSum = useMemo(() => calculateSum("unitPrice"), [calculateSum]);
-  const vatSum = useMemo(() => calculateSum("vatAmount"), [calculateSum]);
-  const qtySum = useMemo(() => calculateSum("quantity"), [calculateSum]);
-
-  const [progress, setProgress] = React.useState(13);
-
-  React.useEffect(() => {
-    const timer = setTimeout(() => setProgress(66), 500);
-    return () => clearTimeout(timer);
-  }, []);
+  const netSum = useMemo(
+    () => calculateSum("netAmount", data),
+    [calculateSum, data]
+  );
+  const unitSum = useMemo(
+    () => calculateSum("unitPrice", data),
+    [calculateSum, data]
+  );
+  const vatSum = useMemo(
+    () => calculateSum("vatAmount", data),
+    [calculateSum, data]
+  );
+  const qtySum = useMemo(
+    () => calculateSum("quantity", data),
+    [calculateSum, data]
+  );
+  console.log("🚀 ~ file: Table.tsx:41 ~ DataTable ~ qtySum:", qtySum);
 
   return (
-    <Card className="w-full my-10">
+    <Card className="w-full">
       <CardContent className="p-0 ">
         <Table className=" w-full overflow-scroll ">
           <TableHeader className="sticky z-10 top-0 bg-secondary">
@@ -66,18 +65,18 @@ const DataTable = ({ data }: any) => {
               <TableCell>Total</TableCell>
               <TableCell>{qtySum}</TableCell>
               <TableCell></TableCell>
-              <TableCell>{`${vatSum.toFixed(2)} ${
+              <TableCell>{`${vatSum?.toFixed(2)} ${
                 english.currency
               }`}</TableCell>
-              <TableCell>{`${unitSum.toFixed(2)} ${
+              <TableCell>{`${unitSum?.toFixed(2)} ${
                 english.currency
               }`}</TableCell>
-              <TableCell>{`${netSum.toFixed(2)} ${
+              <TableCell>{`${netSum?.toFixed(2)} ${
                 english.currency
               }`}</TableCell>
 
               <TableCell className="text-right">
-                {`${totalSum.toFixed(2)} ${english.currency}`}
+                {`${totalSum?.toFixed(2)} ${english.currency}`}
               </TableCell>
             </TableRow>
           </TableFooter>

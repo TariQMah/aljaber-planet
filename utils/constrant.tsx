@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 export const english = {
   currency: "AED",
 };
@@ -13,6 +15,37 @@ export const query = {
   Customerid_query:
     "SELECT Id from CXSRetailSH107.dbo.CusCustomer WHERE [CustomerKey] =",
   Insert_Query: "",
+};
+export const document_type = "PASSPORT";
+
+export const issuetaxrefundtag = true;
+export const slip_logo = "../images/recieptlogo/ddlogo.jpg";
+export const types = "RECEIPT";
+export const o_code = "SH-135";
+export const o_name = "Discover UAE - Souq Al Jami";
+export const payment_method_code = "Cash";
+
+export const o_pos_lcoation = "Discover Dubai";
+export const o_phone = "0556002091";
+export const o_website = "www.aljabergallery.com";
+
+export const formatDateTime = (date: Date): string => {
+  const pad = (value: number) => value.toString().padStart(2, "0");
+
+  const year = pad(date.getUTCFullYear());
+  const month = pad(date.getUTCMonth() + 1);
+  const day = pad(date.getUTCDate());
+  const hour = pad(date.getUTCHours());
+  const minute = pad(date.getUTCMinutes());
+
+  return `${year}-${month}-${day}T${hour}:${minute}`;
+};
+
+export const calculateSum = (property: any, data: any) => {
+  return data.reduce((accumulator: any, invoice: any) => {
+    const propertyValue = invoice[property]?.toString();
+    return accumulator + parseFloat(propertyValue);
+  }, 0);
 };
 
 export const locations = {
