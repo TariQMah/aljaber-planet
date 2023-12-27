@@ -20,17 +20,11 @@ const AlertModal = ({ isOpen, setOpen, action }: any) => {
   return (
     <AlertDialog open={isOpen} onOpenChange={setOpen}>
       <AlertDialogContent>
-        <form
-          onSubmit={(event) => {
-            wait().then(() => setOpen(false));
-            event.preventDefault();
-          }}
-        >
-          {/** some inputs */}
-          <button type="submit">Submitss</button>
-        </form>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Your refund tag is ready</AlertDialogTitle>
+          <AlertDialogDescription>Press OK to proceed.</AlertDialogDescription>
+        </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Copy</AlertDialogCancel>
           <AlertDialogAction onClick={() => action()}>
             Print Tag
           </AlertDialogAction>

@@ -58,7 +58,9 @@ const ScanForm = ({ setData, setOpen, setLoading, setRecieptNumber }: any) => {
       .catch((err) => {
         setOpen(false);
         let { response } = err;
-        toast.error(response?.data);
+        toast.error(
+          response?.data || "No conenction made, check your internet"
+        );
       })
       .finally(() => {
         setLoading(false);

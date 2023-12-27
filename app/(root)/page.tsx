@@ -24,7 +24,7 @@ const Dashboard = () => {
           onClick={() => onRouteClick("planets-tax-refund-programme")}
           className="w-full group transition rounded-3xl shadow-md  hover:shadow-2xl hover:bg-green-500 hover:cursor-pointer "
         >
-          <CardContent className="p-48">
+          <CardContent className="p-32">
             <h3 className="text-6xl text-center transition  group-hover:text-white">
               New
             </h3>
@@ -34,9 +34,20 @@ const Dashboard = () => {
           onClick={() => onRouteClick("cancel-refund-request")}
           className="w-full group transition rounded-3xl shadow-md  hover:shadow-2xl  hover:bg-green-500 "
         >
-          <CardContent className="p-48">
+          <CardContent className="p-32">
             <h3 className="text-6xl text-center transition  group-hover:text-white">
               Cancel
+            </h3>
+          </CardContent>
+        </Card>
+
+        <Card
+          onClick={() => onRouteClick("reprint")}
+          className="w-full group transition rounded-3xl shadow-md  hover:shadow-2xl  hover:bg-green-500 "
+        >
+          <CardContent className="p-32">
+            <h3 className="text-6xl text-center transition  group-hover:text-white">
+              Reprint
             </h3>
           </CardContent>
         </Card>

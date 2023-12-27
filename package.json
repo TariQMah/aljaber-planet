@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NODE_ENV=production next build && next start",
-    "start": "next start",
+    "build": "cross-env NODE_ENV=production next build && npx serve@latest out",
+    "start": "node server.js",
     "lint": "next lint"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "@tanstack/react-table": "^8.10.7",
+    "@types/mysql": "^2.15.24",
     "axios": "^1.6.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
@@ -54,6 +55,7 @@
     "@types/react-dom": "^18",
     "@types/react-table": "^7.7.18",
     "autoprefixer": "^10.4.16",
+    "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "postcss": "^8.4.32",

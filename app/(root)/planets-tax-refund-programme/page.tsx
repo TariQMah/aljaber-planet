@@ -45,6 +45,7 @@ const Page = () => {
 
   const onFormSubmit = useCallback(
     async (payload: any) => {
+      console.log("🚀 ~ file: page.tsx:48 ~ payload:", payload);
       const totalSum = calculateSum("grossAmount", data);
       const netSum = calculateSum("netAmount", data);
       const vatSum = calculateSum("vatAmount", data);
@@ -77,6 +78,7 @@ const Page = () => {
             {
               code: payment_method_code,
               amount: totalSum,
+              paymentMethod: data[0]?.paymentType,
             },
           ],
         },
@@ -108,16 +110,17 @@ const Page = () => {
         .post("/api/inventory", { body })
         .then(({ data }: any) => {
           let { taxRefundResponse } = data;
-          toast.success(`
-            ${taxRefundResponse?.message}
-           `);
-
+          toast.success(taxRefundResponse?.message);
           setTagRecipt(taxRefundResponse);
           setIsPrint(true);
 
           generatePrint.addPrint({ ...body, taxRefundResponse });
         })
-        .catch((error: any) => toast.error(error?.response?.data));
+        .catch((error: any) =>
+          toast.error(
+            error?.response?.data || "No conenction made, check your internet"
+          )
+        );
     },
     [recieptNumber, data, axios]
   );

@@ -16,7 +16,7 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <LoadingModal />
+      <LoadingModal isOpen={false} loading={false} />
     </>
   );
 };

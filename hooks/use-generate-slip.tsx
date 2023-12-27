@@ -12,9 +12,8 @@ const useGeneratePrint = create(
     (set, get) => ({
       items: [],
       addPrint: (data: any) => {
-        console.log("🚀 ~ file: use-generate-slip.tsx:32 ~ data:", data);
         set({ items: [...get().items, data] });
-        toast.success("Ready for print");
+        // toast.success("Ready for print");
       },
     }),
     {

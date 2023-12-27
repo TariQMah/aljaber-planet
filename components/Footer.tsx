@@ -1,7 +1,10 @@
 "use client";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const Footer = () => {
+  const router = usePathname();
+  if (router === "/generatedreciept") return;
   const current = new Date();
   return (
     <div className="bg-green-500 py-10 text-xl text-white  shadow-md flex justify-between px-10 items-center">

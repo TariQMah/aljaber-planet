@@ -1,6 +1,12 @@
+import { query } from "@/utils/constrant";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { NextRequest, NextResponse } from "next/server";
-
+import db from "mssql";
+import {
+  closeConnectionToInsertDatabase,
+  connectToDatabase,
+  connectToInsertDatabase,
+} from "@/lib/db";
 interface TokenResponse {
   access_token?: string;
 }
@@ -45,10 +51,77 @@ export async function POST(req: NextRequest) {
       data: JSON.stringify(body),
     };
 
-    const { data: transcResponse } = await axios.request<TranscResponse>(
+    const { data: transcResponse }: any = await axios.request<TranscResponse>(
       transcConfig
     );
 
+    await connectToInsertDatabase();
+
+    try {
+      const sql2 = `INSERT INTO [RefundEntries] (
+      [ReceiptNumber]
+      ,[CustomerFName]
+      ,[CustomerLName]
+      ,[Passport]
+      ,[Phone]
+      ,[DOB]
+      ,[Nationality]
+      ,[Residence]
+      ,[DocumentType]
+      ,[DocNumber]
+      ,[TotalAmount]
+      ,[ItemsQTY]
+      ,[VAT]
+      ,[TaxRefundAmount]
+      ,[TaxReFundMessage]
+      ,[TaxRefundQrCode]
+      ,[taxRefundStatus]
+      ,[TaxRefundStatusCode]
+      ,[TaxRefundTagNumber]
+      ,[TaxDigitalReceipt]
+      ,[TaxRegisterStatus]
+      ,[TaxRegisterTagNumber]
+      ,[CreatedAt]
+      ,[SalesFirstName]
+      ,[SalesLastName]
+      ,[SalesID]
+      ,[Terminal]
+      ,[Type])
+VALUES ('${transcResponse?.receiptNumber}',
+ '${body.shopper?.firstName}',
+  '${body.shopper?.lastName}',
+  '${body.shopper?.shopperIdentityDocument?.number}',
+  '${body.shopper?.phoneNumber}',
+  '${body.shopper?.birth?.date}',
+  '${body.shopper?.nationality}',
+  '${body.shopper?.countryOfResidence}',
+  '${body.shopper?.shopperIdentityDocument?.type}',
+  '${body.shopper?.shopperIdentityDocument?.number}',
+  '${transcResponse?.totalAmount}',
+  '${transcResponse?.transactionItems?.length}',
+  '${transcResponse?.vatAmount}',
+  '${transcResponse?.taxRefundResponse?.refundAmount}',
+  '${transcResponse?.taxRefundResponse?.message}',
+  '${transcResponse?.taxRefundResponse?.taxRefundQrCode}',
+  '${transcResponse?.taxRefundResponse?.taxRefundStatus}',
+  '${transcResponse?.taxRefundResponse?.taxRefundStatusCode}',
+  '${transcResponse?.taxRefundResponse?.taxRefundTagNumber}',
+  '${transcResponse?.taxRegisterResponse?.digitalReceipt}',
+  '${transcResponse?.taxRegisterResponse?.taxRegisterStatus}',
+  '${transcResponse?.taxRegisterResponse?.taxRegisterTagNumber}',
+  GETDATE(),
+  '${body.sales?.firstName}',
+  '${body.sales?.lastName}',
+  '${body.sales?.salesID}',
+  '${body.terminal}',
+  '${body.type}'
+  )`;
+      const result = await db.query(sql2);
+      console.log("🚀 ~ file: route.ts:126 ~ POST ~ result:", result);
+    } catch (error) {
+      console.log("🚀 ~ file: route.ts:167 ~ POST ~ error:", error);
+    }
+    await closeConnectionToInsertDatabase();
     return new NextResponse(JSON.stringify(transcResponse), { status: 201 });
   } catch (error: any) {
     const errorMessage =

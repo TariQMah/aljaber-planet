@@ -8,18 +8,17 @@ export const arabic = {
 };
 
 export const query = {
-  baseinfo_query_o:
-    "SELECT t.TransactionId, t.ActualDate, ROUND(t.SubTotal,2) AS SubTotal, ROUND(t.Tax,2)AS Tax, ROUND(t.Total,2) AS Total, t.TransactionKey,ROUND(t.TotalTaxableAmount,2)AS TotalTaxableAmount,t.DiscountAmount,t.TransactionCustomerName,t.LineItemCount,t.CustomerKey,t.UserKey,s.ProductKey,s.Description,s.Quantity,ROUND(s.BasePrice, 2) AS ItemBasePrice,ROUND(s.Tax, 2) AS ItemTax, ROUND(s.OriginalPrice, 2) AS ItemOriginalPrice,ROUND(s.Total, 2) AS ItemTotal, ROUND(s.DiscountAmount, 2) AS ItemDiscountAmount,c.Id AS CustomerId,p.Amount, p.PaymentTypeKey,pt.Description AS PaymentTypeDescription,u.Id AS UserId, u.FirstName, u.LastName FROM CXSRetailSH107.dbo.trxtransaction t JOIN CXSRetailSH107.dbo.TrxTransactionSaleItem s ON t.TransactionKey = s.TransactionKey JOIN CXSRetailSH107.dbo.CusCustomer c ON t.CustomerKey = c.CustomerKey JOIN CXSRetailSH107.dbo.TrxTransactionPayment p ON t.TransactionKey = p.TransactionKey JOIN CXSRetailSH107.dbo.PmtPaymentType pt ON p.PaymentTypeKey = pt.PaymentTypeKey JOIN CXSRetailSH107.dbo.LbrUser u ON t.UserKey = u.UserKey WHERE t.TransactionId = ",
-  iteminfo_query_o:
-    "SELECT ProductKey,Description,Quantity,BasePrice,Tax,OriginalPrice,Total,DiscountAmount FROM CXSRetailSH107.dbo.TrxTransactionSaleItem  WHERE [TransactionKey] =",
-  Customerid_query:
-    "SELECT Id from CXSRetailSH107.dbo.CusCustomer WHERE [CustomerKey] =",
-  Insert_Query: "",
+  baseinfo_query_o: `SELECT t.TransactionId, t.ActualDate, ROUND(t.SubTotal,2) AS SubTotal, ROUND(t.Tax,2)AS Tax, ROUND(t.Total,2) AS Total, t.TransactionKey,ROUND(t.TotalTaxableAmount,2)AS TotalTaxableAmount,t.DiscountAmount,t.TransactionCustomerName,t.LineItemCount,t.CustomerKey,t.UserKey,s.ProductKey,s.Description,s.Quantity,ROUND(s.BasePrice, 2) AS ItemBasePrice,ROUND(s.Tax, 2) AS ItemTax, ROUND(s.OriginalPrice, 2) AS ItemOriginalPrice,ROUND(s.Total, 2) AS ItemTotal, ROUND(s.DiscountAmount, 2) AS ItemDiscountAmount,c.Id AS CustomerId,p.Amount, p.PaymentTypeKey,pt.Description AS PaymentTypeDescription,u.Id AS UserId, u.FirstName, u.LastName FROM [${process.env.DB_NAME}].dbo.trxtransaction t JOIN [${process.env.DB_NAME}].dbo.TrxTransactionSaleItem s ON t.TransactionKey = s.TransactionKey JOIN [${process.env.DB_NAME}].dbo.CusCustomer c ON t.CustomerKey = c.CustomerKey JOIN [${process.env.DB_NAME}].dbo.TrxTransactionPayment p ON t.TransactionKey = p.TransactionKey JOIN [${process.env.DB_NAME}].dbo.PmtPaymentType pt ON p.PaymentTypeKey = pt.PaymentTypeKey JOIN [${process.env.DB_NAME}].dbo.LbrUser u ON t.UserKey = u.UserKey WHERE t.TransactionId = `,
+  iteminfo_query_o: `SELECT ProductKey,Description,Quantity,BasePrice,Tax,OriginalPrice,Total,DiscountAmount FROM [${process.env.DB_NAME}].dbo.TrxTransactionSaleItem  WHERE [TransactionKey] =`,
+  Customerid_query: `SELECT Id from [${process.env.DB_NAME}].dbo.CusCustomer WHERE [CustomerKey] =`,
+  //Insert_Query: "INSERT INTO RefundEntries SET ?",
+
+  Retrive_Reprint: `SELECT TOP 1 * FROM RefundEntries WHERE ReceiptNumber =`,
 };
 export const document_type = "PASSPORT";
 
 export const issuetaxrefundtag = true;
-export const slip_logo = "../images/recieptlogo/ddlogo.jpg";
+export const slip_logo = "../images/recieptlogo/discover-dubai.jpg";
 export const types = "RECEIPT";
 export const o_code = "SH-135";
 export const o_name = "Discover UAE - Souq Al Jami";

@@ -303,7 +303,9 @@ const CustomerForm = ({ passport, submitRef, onFormSubmit }: any) => {
                   </FormItem>
                 )}
               />
-              <Button ref={submitRef}>Submit</Button>
+              <Button style={{ display: "none" }} ref={submitRef}>
+                Submit
+              </Button>
             </form>
           </Form>
         </CardContent>
