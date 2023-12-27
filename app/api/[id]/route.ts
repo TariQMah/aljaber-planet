@@ -3,25 +3,19 @@ import db from "mssql";
 import { connectToDatabase, connectionClose } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params?: { id?: string } }
-) {
+export async function POST(req: NextRequest, context: any) {
   try {
-    const { body } = await req.json();
-    console.log("🚀 ~ file: route.ts:10 ~ POST ~ body:", body);
+    console.log("🚀 ~ file: route.ts:10 ~ context:", context);
+    const { params } = context;
     if (params && !params.id) {
       return new NextResponse("Category id is required", { status: 400 });
     }
-
-    // const body = await req.json()
-    // const { name } = body
 
     await connectToDatabase();
 
     const sql = query.baseinfo_query_o;
 
-    const result = await db.query(sql + `'${params.id}'`);
+    const result = await db.query(sql + `'${params && params.id}'`);
     const records = [];
     for (const row of result.recordset) {
       const items = {
@@ -53,4 +47,16 @@ export async function POST(
     console.log("Store error : ", error);
     return new NextResponse("Internal Error ", { status: 500 });
   }
+}
+
+export async function generateStaticParams(context: any) {
+  console.log(
+    "🚀 ~ file: route.ts:54 ~ generateStaticParams ~ context:",
+    context
+  );
+
+  const dynamicIds = ["id1", "id2", "id3"]; // Replace with your dynamic parameter values
+
+  const staticParams = dynamicIds.map((id) => ({ params: { id } }));
+  return Promise.resolve(staticParams);
 }

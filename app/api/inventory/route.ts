@@ -1,5 +1,5 @@
 import { query } from "@/utils/constrant";
-import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { NextRequest, NextResponse } from "next/server";
 import db from "mssql";
 import {
@@ -55,9 +55,9 @@ export async function POST(req: NextRequest) {
       transcConfig
     );
 
-    await connectToInsertDatabase();
-
     try {
+      await connectToInsertDatabase();
+
       const sql2 = `INSERT INTO [RefundEntries] (
       [ReceiptNumber]
       ,[CustomerFName]
@@ -117,16 +117,18 @@ VALUES ('${transcResponse?.receiptNumber}',
   '${body.type}'
   )`;
       const result = await db.query(sql2);
-      console.log("🚀 ~ file: route.ts:126 ~ POST ~ result:", result);
+      console.log("🚀 ~ file: route.ts:120 ~ POST ~ result:", result);
     } catch (error) {
       console.log("🚀 ~ file: route.ts:167 ~ POST ~ error:", error);
+    } finally {
+      return new NextResponse(JSON.stringify(transcResponse), { status: 201 });
     }
-    await closeConnectionToInsertDatabase();
-    return new NextResponse(JSON.stringify(transcResponse), { status: 201 });
   } catch (error: any) {
     const errorMessage =
       error?.response?.data?.message || "Internal Server Error";
 
     return new NextResponse(errorMessage, { status: 500 });
+  } finally {
+    await closeConnectionToInsertDatabase();
   }
 }
